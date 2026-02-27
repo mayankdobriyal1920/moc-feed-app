@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "MOC Feed App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Mock Auth",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"u1\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/mock"
+      }
+    },
+    {
+      "name": "Create Post",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Hello world\"\n}"
+        },
+        "url": "{{baseUrl}}/posts"
+      }
+    },
+    {
+      "name": "Feed",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/feed?cursor={{cursor}}&limit=10"
+      }
+    },
+    {
+      "name": "Add Reply",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Nice post\"\n}"
+        },
+        "url": "{{baseUrl}}/posts/{{postId}}/replies"
+      }
+    },
+    {
+      "name": "Toggle Upvote",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/posts/{{postId}}/upvote"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "token", "value": "mock-u1" },
+    { "key": "postId", "value": "" },
+    { "key": "cursor", "value": "" }
+  ]
+}
