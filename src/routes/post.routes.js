@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const express = require('express');
 const { pool } = require('../config/db');
 const { authRequired } = require('../middleware/auth');
+const { rateLimitPerUser } = require('../middleware/rateLimitPerUser');
 const { validate, textSchema, feedQuerySchema } = require('../validation');
 const { encodeCursor, decodeCursor } = require('../utils');
 
@@ -11,7 +12,7 @@ function toMysqlDatetime(date) {
   return date.toISOString().slice(0, 23).replace('T', ' ');
 }
 
-router.post('/posts', authRequired, async (req, res, next) => {
+router.post('/posts', authRequired, rateLimitPerUser, async (req, res, next) => {
   try {
     const body = validate(textSchema, req.body);
     const id = `p_${crypto.randomUUID().replace(/-/g, '').slice(0, 12)}`;
