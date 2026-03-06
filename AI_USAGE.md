@@ -10,9 +10,11 @@
 
 ## 2. AI response summary
 
-- AI generated an Express middleware using an in-memory `Map` keyed by user ID with a rolling 60-second window.
-- In review, AI identified stale key memory growth risk and suggested periodic cleanup.
-- AI also suggested adding `Retry-After` on HTTP 429.
+- AI proposed a simple package-based option using `express-rate-limit` with in-memory storage (`windowMs: 60000`, `max: 5`, `keyGenerator` based on user id, and custom `429` body).
+- AI explained this reduces custom code but keeps single-instance in-memory limitations.
+- AI suggested production/distributed options with Redis: `express-rate-limit` + `rate-limit-redis` or `rate-limiter-flexible` + Redis.
+- AI summarized tradeoffs: in-memory is fine for one low-traffic process; Redis is better for multi-instance/autoscaled production with consistent limits across instances.
+- AI also generated a custom in-memory middleware (`Map` + rolling 60-second window), then review feedback identified stale-key memory growth risk and suggested cleanup plus `Retry-After` on `429`.
 
 ## 3. What I modified or improved
 
